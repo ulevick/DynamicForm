@@ -1,0 +1,49 @@
+<form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Vardas</mat-label>
+    <input matInput formControlName="name" required>
+    <mat-error *ngIf="jobForm.get('name')!.hasError('required')">Vardas yra privalomas</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Pavardė</mat-label>
+    <input matInput formControlName="surname" required>
+    <mat-error *ngIf="jobForm.get('surname')!.hasError('required')">Pavardė yra privaloma</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>El. paštas</mat-label>
+    <input matInput formControlName="email" required>
+    <mat-error *ngIf="jobForm.get('email')!.hasError('required')">El. paštas yra privalomas</mat-error>
+    <mat-error *ngIf="jobForm.get('email')!.hasError('email')">Neteisingas el. pašto formatas</mat-error>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="lookingForJob">Ar ieškote darbo?</mat-checkbox>
+
+  <mat-form-field>
+    <mat-label>Kokio lygio specialistas esate?</mat-label>
+    <mat-select formControlName="specialistLevel">
+      <mat-option value="junior">Junior</mat-option>
+      <mat-option value="mid">Mid</mat-option>
+      <mat-option value="senior">Senior</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container *ngIf="showAdditionalField">
+    <mat-form-field *ngIf="jobForm.get('specialistLevel')!.value === 'junior'">
+      <mat-label>2+2</mat-label>
+      <input matInput formControlName="juniorAnswer" type="number" required>
+      <mat-error *ngIf="jobForm.get('juniorAnswer')!.hasError('required')">Atsakymas yra privalomas</mat-error>
+      <mat-error *ngIf="jobForm.get('juniorAnswer')!.hasError('pattern')">Neteisingas atsakymas</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="jobForm.get('specialistLevel')!.value === 'mid'">
+      <mat-label>Apibūdinkite save</mat-label>
+      <textarea matInput formControlName="midDescription" required></textarea>
+      <mat-error *ngIf="jobForm.get('midDescription')!.hasError('required')">Aprašymas yra privalomas</mat-error>
+      <mat-error *ngIf="jobForm.get('midDescription')!.hasError('pattern')">Aprašyme negali būti raidės "a"</mat-error>
+    </mat-form-field>
+  </ng-container>
+
+  <button mat-raised-button type="submit">Pateikti</button>
+</form>

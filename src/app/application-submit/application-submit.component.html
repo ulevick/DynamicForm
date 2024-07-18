@@ -1,0 +1,19 @@
+<form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+  <ng-container *ngIf="showMotivationField; else submittedTemplate">
+    <mat-form-field>
+      <mat-label>Motyvacinis laiškas</mat-label>
+      <textarea matInput formControlName="motivationLetter" required></textarea>
+      <mat-error *ngIf="submitForm.get('motivationLetter')!.hasError('required')">Motyvacinis laiškas yra privalomas</mat-error>
+      <mat-error *ngIf="submitForm.get('motivationLetter')!.hasError('minlength')">Motyvacinis laiškas turi būti bent 140 simbolių</mat-error>
+    </mat-form-field>
+  </ng-container>
+
+  <ng-template #submittedTemplate>
+    <div class="submitted-text">Aplikacija pateikta!</div>
+  </ng-template>
+
+  <div class="buttons">
+    <button mat-raised-button (click)="goBack()" type="button">Atgal</button>
+    <button mat-raised-button *ngIf="showMotivationField" type="submit">Pateikti</button>
+  </div>
+</form>
